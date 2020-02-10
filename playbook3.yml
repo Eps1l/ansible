@@ -1,0 +1,23 @@
+---
+- name: "Big and stronk"
+  hosts: MainHost
+  become: yes
+
+  vars:
+    source_file: ./tmp/learn_sintacsis.yml
+    destin_file: /home
+
+  tasks:
+   - name: Install Nginx
+     apt: name=nginx state=present
+
+   - name: Start and enable nginx
+     service: name=nginx state=started enabled=yes
+
+   - name: Copy file to the host
+     copy: src={{ source_file  }} dest={{ destin_file }} mode=0742
+     notify: Check file
+
+  handlers:
+   - name: Check file
+     service: name=nginx state=restarted
