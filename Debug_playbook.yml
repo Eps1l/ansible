@@ -27,3 +27,9 @@
 
   - debug:
       msg: "Bios is {{ ansible_bios_version }}"
+
+  - shell: uptime
+    register: result
+
+  - debug:
+      var: result
