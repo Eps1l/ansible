@@ -1,0 +1,13 @@
+---
+- name: "Install default Nginx Web Server"
+  hosts: all
+  become: yes
+
+  tasks:
+  - name: "Install Nginx Web Server"
+    apt: name=nginx state=present
+    retries: 2
+    delay: 10
+
+  - name: "Start Nginx and Enable it on the every boot"
+    service: name=nginx state=started enabled=yes

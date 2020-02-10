@@ -1,0 +1,29 @@
+---
+- name: Playbook for variables Lesson
+  hosts: MainHost
+  become: yes
+
+
+  vars:
+    message1: Privet
+    message2: World
+    secret  : Dont tell anything to anybody
+
+  tasks:
+
+  - name: Print Secret Variable
+    debug:
+      var: secret
+
+  - debug:
+      msg: "Sekretnoe slovo: {{ secret }}"
+
+  - debug:
+      msg: "Vladelec Etogo Servera --> {{ owner }}"
+
+  - set_fact: full_message="{{ message1 }} {{ message2 }} from {{ owner }}"
+  - debug:
+      var: full_message
+
+  - debug:
+      msg: "Bios is {{ ansible_bios_version }}"
