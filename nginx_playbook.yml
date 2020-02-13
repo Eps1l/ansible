@@ -8,15 +8,23 @@
     destin_file: /home
 
   tasks:
-   - name: Install Nginx
-     apt: name=nginx state=present
 
-   - name: Start and enable nginx
-     service: name=nginx state=started enabled=yes
+   - name: Check OS version
+     debug: var=ansible_os_family
 
-   - name: Copy file to the host
-     copy: src={{ source_file  }} dest={{ destin_file }} mode=0742
-     notify: Check file
+   - block: # =====Block for Debian=====
+     
+      - name: Install Nginx for Debian
+        apt: name=nginx state=present
+
+      - name: Start and enable nginx
+        service: name=nginx state=started enabled=yes
+
+      - name: Copy file to the host
+        copy: src={{ source_file  }} dest={{ destin_file }} mode=0742
+        notify: Check file
+
+     when: ansible_os_family == "Debian"
 
   handlers:
    - name: Check file
